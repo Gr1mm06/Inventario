@@ -12,6 +12,7 @@ class Zapatos extends Model
     protected $table = 'zapatos';
     public $timestamps = false;
     protected $fillable = [
+        'descripcion',
         'id_modelo',
         'id_marca',
         'foto',
@@ -19,4 +20,49 @@ class Zapatos extends Model
         'numero',
         'precio',
     ];
+
+    public static function listaZapatos(){
+       return Zapatos::leftJoin('modelos as mo',function($mo){
+            $mo->on('zapatos.id_modelo','=','mo.id_modelo');
+        })->leftJoin('marcas as ma',function($ma){
+            $ma->on('zapatos.id_marca','=','ma.id_marca');
+        })->leftJoin('zapatos_categorias as zc',function ($zc){
+            $zc->on('zapatos.id_zapato','=','zc.id_zapato');
+        })->leftJoin('categorias as cat',function ($cat){
+            $cat->on('zc.id_categoria','=','cat.id_categoria');
+        })->select(
+           'zapatos.id_zapato',
+           'zapatos.descripcion',
+            'zapatos.foto',
+            'zapatos.cantidad',
+            'zapatos.numero',
+            'zapatos.precio',
+            'mo.descripcion as modelo',
+            'mo.codigo_modelo',
+            'ma.descripcion as marca',
+            'cat.descripcion as categoria'
+        )->get();
+    }
+
+    public static function getZapatoById($id)
+    {
+        return Zapatos::leftJoin('modelos as mo',function($mo){
+            $mo->on('zapatos.id_modelo','=','mo.id_modelo');
+        })->leftJoin('marcas as ma',function($ma){
+            $ma->on('zapatos.id_marca','=','ma.id_marca');
+        })->select(
+            'zapatos.id_zapato',
+            'zapatos.descripcion',
+            'zapatos.foto',
+            'zapatos.cantidad',
+            'zapatos.numero',
+            'zapatos.precio',
+            'mo.id_modelo',
+            'mo.descripcion as modelo',
+            'mo.codigo_modelo',
+            'ma.id_marca',
+            'ma.descripcion as marca',
+        )->where('zapatos.id_zapato',$id)
+        ->first();
+    }
 }

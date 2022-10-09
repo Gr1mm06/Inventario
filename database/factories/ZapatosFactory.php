@@ -17,6 +17,7 @@ class ZapatosFactory extends Factory
     public function definition()
     {
         return [
+            'descripcion' => $this->faker->word(),
             'id_modelo' => Modelos::all()->random()->id_modelo,
             'id_marca' => Marcas::all()->random()->id_marca,
             'foto' => 'unisex.jpg',

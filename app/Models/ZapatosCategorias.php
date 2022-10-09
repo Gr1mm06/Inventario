@@ -14,4 +14,8 @@ class ZapatosCategorias extends Model
         'id_zapato',
         'id_categoria',
     ];
+
+    public static function getIdCategoriasByIdZapato($id){
+        return ZapatosCategorias::where('id_zapato',$id)->get();
+    }
 }

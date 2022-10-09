@@ -15,6 +15,7 @@ class CreateZapatosTable extends Migration
     {
         Schema::create('zapatos', function (Blueprint $table) {
             $table->increments('id_zapato');
+            $table->string('descripcion',50);
             $table->unsignedInteger('id_modelo');
             $table->foreign('id_modelo')
                 ->references('id_modelo')
