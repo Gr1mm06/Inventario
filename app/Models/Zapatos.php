@@ -31,6 +31,7 @@ class Zapatos extends Model
                'cantidad' => $request->cantidad,
                'numero' => $request->numero,
                'precio' => $request->precio,
+               'foto' => 'unisex.jpg'
            ]
        );
     }
@@ -109,6 +110,31 @@ class Zapatos extends Model
         )->get();
     }
 
+    public static function listaZapatosByCategoria($id_categoria)
+    {
+        return Zapatos::leftJoin('modelos as mo',function($mo){
+            $mo->on('zapatos.id_modelo','=','mo.id_modelo');
+        })->leftJoin('marcas as ma',function($ma){
+            $ma->on('zapatos.id_marca','=','ma.id_marca');
+        })->leftJoin('zapatos_categorias as zc',function ($zc){
+            $zc->on('zapatos.id_zapato','=','zc.id_zapato');
+        })->leftJoin('categorias as cat',function ($cat){
+            $cat->on('zc.id_categoria','=','cat.id_categoria');
+        })->select(
+            'zapatos.id_zapato',
+            'zapatos.descripcion',
+            'zapatos.foto',
+            'zapatos.cantidad',
+            'zapatos.numero',
+            'zapatos.precio',
+            'mo.descripcion as modelo',
+            'mo.codigo_modelo',
+            'ma.descripcion as marca',
+            'cat.descripcion as categoria'
+        )->where('zc.id_categoria',$id_categoria)
+        ->get();
+    }
+
     public static function getZapatoById($id)
     {
         return Zapatos::leftJoin('modelos as mo',function($mo){
@@ -129,5 +155,56 @@ class Zapatos extends Model
             'ma.descripcion as marca',
         )->where('zapatos.id_zapato',$id)
         ->first();
+    }
+
+    public static function listaZapatosByModeloCategoria($id_modelo, $id_categoria)
+    {
+        return Zapatos::leftJoin('modelos as mo',function($mo){
+            $mo->on('zapatos.id_modelo','=','mo.id_modelo');
+        })->leftJoin('marcas as ma',function($ma){
+            $ma->on('zapatos.id_marca','=','ma.id_marca');
+        })->leftJoin('zapatos_categorias as zc',function ($zc){
+            $zc->on('zapatos.id_zapato','=','zc.id_zapato');
+        })->leftJoin('categorias as cat',function ($cat){
+            $cat->on('zc.id_categoria','=','cat.id_categoria');
+        })->select(
+            'zapatos.id_zapato',
+            'zapatos.descripcion',
+            'zapatos.foto',
+            'zapatos.cantidad',
+            'zapatos.numero',
+            'zapatos.precio',
+            'mo.descripcion as modelo',
+            'mo.codigo_modelo',
+            'ma.descripcion as marca',
+            'cat.descripcion as categoria'
+        )->where('zc.id_categoria',$id_categoria)
+        ->where('mo.id_modelo',$id_modelo)
+        ->get();
+    }
+
+    public static function listaZapatosByModelo($id_modelo)
+    {
+        return Zapatos::leftJoin('modelos as mo',function($mo){
+            $mo->on('zapatos.id_modelo','=','mo.id_modelo');
+        })->leftJoin('marcas as ma',function($ma){
+            $ma->on('zapatos.id_marca','=','ma.id_marca');
+        })->leftJoin('zapatos_categorias as zc',function ($zc){
+            $zc->on('zapatos.id_zapato','=','zc.id_zapato');
+        })->leftJoin('categorias as cat',function ($cat){
+            $cat->on('zc.id_categoria','=','cat.id_categoria');
+        })->select(
+            'zapatos.id_zapato',
+            'zapatos.descripcion',
+            'zapatos.foto',
+            'zapatos.cantidad',
+            'zapatos.numero',
+            'zapatos.precio',
+            'mo.descripcion as modelo',
+            'mo.codigo_modelo',
+            'ma.descripcion as marca',
+            'cat.descripcion as categoria'
+        )->where('mo.id_modelo',$id_modelo)
+        ->get();
     }
 }

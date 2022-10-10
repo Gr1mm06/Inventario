@@ -8,29 +8,29 @@
         </button>
     </div>
     <div class="col-md-4">
-        <select class="form-select"  aria-label="Default select example">
-            <option selected disabled>Modelo</option>
+        <select class="form-select"  aria-label="Default select example" id="modelo">
+            <option value="0" selected disabled>Modelo</option>
             @foreach($modelos as $mo)
                 <option value="{{ $mo->id_modelo }}">{{ $mo->codigo_modelo }} - {{ $mo->descripcion }}</option>
             @endforeach
         </select>
     </div>
     <div class="col-md-4">
-        <select class="form-select" aria-label="Default select example">
-            <option disabled selected>Categorias</option>
+        <select class="form-select" aria-label="Default select example" id="categoria">
+            <option value="0" disabled selected>Categorias</option>
             @foreach($categorias as $cat)
                 <option value="{{ $cat->id_categoria }}">{{ $cat->descripcion }}</option>
             @endforeach
         </select>
     </div>
     <div class="col-md-4" >
-        <button onclick="detalle('Inventario','nuevo')" style="text-align: -webkit-right;" type="button" class="btn btn-info">
+        <button onclick="buscarLista()" style="text-align: -webkit-right;" type="button" class="btn btn-info">
             Buscar
         </button>
     </div>
 </div>
 
-<div class="table-responsive col-md-12">
+<div class="table-responsive col-md-12" id="listaZapato">
     <table class="table table-striped table-sm" id="tabla">
         <thead>
         <tr>
@@ -86,4 +86,22 @@
         document.title = 'Inventario | Lista de zapatos';
         tabla();
     } );
+
+    const buscarLista = () => {
+        let modelo = $('#modelo').val();
+        let categoria = $('#categoria').val();
+        if (categoria || modelo) {
+            if(!modelo) {
+                modelo = 0;
+            }
+
+            if(!categoria) {
+                categoria = 0;
+            }
+
+            $('#listaZapato').load(`api/Inventario/ListaBusqueda/${ modelo }/${ categoria }`);
+        } else {
+            alert('Seleccione un parametro de busqueda');
+        }
+    }
 </script>

@@ -19,6 +19,13 @@ use App\Http\Controllers\CarritoController;
 Route::group(['middleware' => 'web'], function() {
     Route::get('Inventario/ListaZapatos', [InventarioController::class, 'index']);
     Route::get('Inventario/CatalogoZapatos', [InventarioController::class, 'show']);
+    Route::get('Inventario/Buscar/{id_categoria}', [InventarioController::class, 'showByCategoria']);
+    Route::get(
+        'Inventario/ListaBusqueda/{id_modelo}/{id_categoria}',
+        [
+            InventarioController::class, 'showListaByBusqueda'
+        ]
+    );
 
     Route::get('Detalle/Zapato/{id_zapato}', [ZapatoController::class, 'show']);
     Route::get('Nuevo/Zapato', [ZapatoController::class, 'create']);

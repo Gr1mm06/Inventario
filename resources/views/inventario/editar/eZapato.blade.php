@@ -75,7 +75,6 @@
                         width="304"
                         height="236"
                         id="imgCalzado"
-                        onchange="cambioFoto()"
                     >
                 </div>
                 <div class="col-md-6">
@@ -146,7 +145,11 @@
             cache       : false,
             contentType : false,
             processData : false,
+            beforeSend: function(){
+                $("#mascara").css("display", "block");
+            },
             success: function(response) {
+                $("#mascara").css("display", "none");
                 if(response === true){
                     alert('Zapato creado correctamente');
                     detalle('Inventario','ListaZapatos');
@@ -160,20 +163,18 @@
     const $seleccionArchivos = document.querySelector("#file"),
         $imagenPrevisualizacion = document.querySelector("#imgCalzado");
 
-    // Escuchar cuando cambie
+
     $seleccionArchivos.addEventListener("change", () => {
-        // Los archivos seleccionados, pueden ser muchos o uno
+
         const archivos = $seleccionArchivos.files;
-        // Si no hay archivos salimos de la función y quitamos la imagen
+
         if (!archivos || !archivos.length) {
             $imagenPrevisualizacion.src = "";
             return;
         }
-        // Ahora tomamos el primer archivo, el cual vamos a previsualizar
+
         const primerArchivo = archivos[0];
-        // Lo convertimos a un objeto de tipo objectURL
         const objectURL = URL.createObjectURL(primerArchivo);
-        // Y a la fuente de la imagen le ponemos el objectURL
         $imagenPrevisualizacion.src = objectURL;
     });
 </script>

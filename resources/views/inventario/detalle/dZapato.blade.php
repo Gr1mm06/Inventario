@@ -57,8 +57,11 @@
             type: 'post',
             url: 'api/Agregar/Carrito',
             dataType: 'json',
+            beforeSend: function(){
+                $("#mascara").css("display", "block");
+            },
             success: function(response) {
-                console.log(response);
+                $("#mascara").css("display", "none");
                 if(response === true){
                     alert('Zapaato agregado al carrito');
                 }else{

@@ -3,7 +3,7 @@
         <h2>Catalogo de Zapatos</h2>
     </div>
     <div class="col-md-4">
-        <select class="form-select" aria-label="Default select example">
+        <select class="form-select" aria-label="Default select example" id="categoria">
             <option disabled selected>Categorias</option>
             @foreach($categorias as $cat)
                 <option value="{{ $cat->id_categoria }}">{{ $cat->descripcion }}</option>
@@ -11,13 +11,13 @@
         </select>
     </div>
     <div class="col-md-4" >
-        <button onclick="detalle('Inventario','nuevo')" style="text-align: -webkit-right;" type="button" class="btn btn-info">
+        <button onclick="Buscar()" style="text-align: -webkit-right;" type="button" class="btn btn-info">
             Buscar
         </button>
     </div>
 </div>
 <div class="table-responsive col-md-12">
-    <div class="row">
+    <div class="row" id="catalogo">
         @foreach($lista as $lis => $l)
             <div class="card col-md-4">
                 <img
@@ -43,3 +43,11 @@
         @endforeach
     </div>
 </div>
+<script>
+    const Buscar = () => {
+        let categoria = $('#categoria').val();
+         if (categoria) {
+             $('#catalogo').load(`api/Inventario/Buscar/${ categoria }`);
+         }
+    }
+</script>

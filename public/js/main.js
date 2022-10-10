@@ -80,7 +80,6 @@ const tabla = () => {
         }
     );
 
-    // Apply the search
     table.columns().every( function () {
         var that = this;
 

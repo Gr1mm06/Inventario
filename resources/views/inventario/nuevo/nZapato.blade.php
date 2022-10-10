@@ -50,7 +50,17 @@
         </div>
         <div class="form-group">
             <label for="icono" class="col-md-2 control-label">Foto</label>
-            <div class="col-md-10">
+            <div class="card col-md-4">
+                <img
+                    src="imagen_calzado/unisex.jpg"
+                    class="card-img-top"
+                    alt=""
+                    width="304"
+                    height="236"
+                    id="imgCalzado"
+                >
+            </div>
+            <div class="col-md-6">
                 <label class="btn btn-primary btn-sm file ">
                     Cargar Imagen <input class="form-control img col-md-10" id="file" name="file" type="file" style="display: none;">
                 </label>
@@ -109,8 +119,11 @@
             cache       : false,
             contentType : false,
             processData : false,
+            beforeSend: function(){
+                $("#mascara").css("display", "block");
+            },
             success: function(response) {
-                console.log(response);
+                $("#mascara").css("display", "none");
                 if(response === true){
                     alert('Zapato creado correctamente');
                     detalle('Inventario','ListaZapatos');
@@ -120,4 +133,22 @@
             }
         });
     }
+
+    const $seleccionArchivos = document.querySelector("#file"),
+        $imagenPrevisualizacion = document.querySelector("#imgCalzado");
+
+
+    $seleccionArchivos.addEventListener("change", () => {
+
+        const archivos = $seleccionArchivos.files;
+
+        if (!archivos || !archivos.length) {
+            $imagenPrevisualizacion.src = "";
+            return;
+        }
+
+        const primerArchivo = archivos[0];
+        const objectURL = URL.createObjectURL(primerArchivo);
+        $imagenPrevisualizacion.src = objectURL;
+    });
 </script>
