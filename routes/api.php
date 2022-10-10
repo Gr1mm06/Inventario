@@ -31,6 +31,9 @@ Route::group(['middleware' => 'web'], function() {
     Route::get('Detalle/Zapato/{id_zapato}', [ZapatoController::class, 'show']);
     Route::get('Nuevo/Zapato', [ZapatoController::class, 'create']);
     Route::get('Editar/Zapato/{id_zapato}', [ZapatoController::class, 'edit']);
+
+    Route::get('Ventas/Lista', [CompraController::class, 'index']);
+    Route::get('Detalle/Venta/{id_venta}', [CompraController::class, 'show']);
 });
 Route::post('Agregar/Zapato', [ZapatoController::class, 'store']);
 Route::put('Actualizar/Zapato', [ZapatoController::class, 'update']);

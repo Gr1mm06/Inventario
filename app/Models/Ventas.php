@@ -14,6 +14,11 @@ class Ventas extends Model
         'fecha_venta',
     ];
 
+    public static function getVenta($id)
+    {
+        return Ventas::where('id_venta',$id)->first();
+    }
+
     public static function agregarVentas($info,$fecha)
     {
         return Ventas::insertGetId(

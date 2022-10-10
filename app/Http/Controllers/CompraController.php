@@ -19,7 +19,14 @@ class CompraController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $ventas = Ventas::all();
+
+            return view('ventas.lista.ventas', compact('ventas'));
+        } catch (ExceptionAlias $e) {
+            echo 'Mensaje: No hay ventas registradas';
+            // echo 'Message: ' . $e->getMessage();
+        }
     }
 
     /**
@@ -62,7 +69,20 @@ class CompraController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $venta = Ventas::getVenta($id);
+            $ventaDetalle = VentasDetalle::getVentaDetalle($id);
+
+            return view(
+                'ventas.detalle.dVentas',
+                compact(
+                    'venta',
+                    'ventaDetalle'
+                )
+            );
+        } catch (ExceptionAlias $e) {
+            echo 'Mensaje: No hay ventas registradas';
+        }
     }
 
 }

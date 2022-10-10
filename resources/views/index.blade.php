@@ -81,9 +81,9 @@
                         </li>
                         <li class="nav-item">
                             <a
-                                class="nav-link active"
+                                class="nav-link active pointer"
                                 aria-current="page"
-                                onclick="detalle('Inventario','CatalogoZapatos');"
+                                onclick="detalle('Ventas','Lista');"
                             >
                                 <span data-feather="grid"></span>
                                 Reporte de ventas

@@ -29,4 +29,23 @@ class VentasDetalle extends Model
 
         return true;
     }
+
+    public static function getVentaDetalle($id_venta)
+    {
+        return VentasDetalle::leftJoin('zapatos as zap',function ($zap){
+            $zap->on('zap.id_zapato','=','ventas_detalle.id_zapato');
+        })->leftJoin('modelos as mod',function ($mod){
+            $mod->on('mod.id_modelo','=','zap.id_modelo');
+        })->select(
+            'zap.id_zapato',
+            'zap.descripcion as zapato',
+            'zap.precio',
+            'zap.foto',
+            'ventas_detalle.cantidad',
+            'ventas_detalle.total',
+            'mod.descripcion as modelo',
+            'mod.codigo_modelo'
+        )->where('ventas_detalle.id_venta',$id_venta)
+            ->get();
+    }
 }
