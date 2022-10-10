@@ -23,7 +23,7 @@ class Carrito extends Model
 
     public static function getCarritoById($id)
     {
-        return Carrito::where('id_carrito')->first();
+        return Carrito::where('id_carrito',$id)->first();
     }
 
     public static function agregarCarrito($request,$subtotal)

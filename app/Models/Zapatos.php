@@ -58,7 +58,7 @@ class Zapatos extends Model
         Zapatos::where('id_zapato',$id_zapato)
             ->update(
                 [
-                    'cantidad' => $request->cantidad,
+                    'cantidad' => $cantidad,
                 ]
             );
 

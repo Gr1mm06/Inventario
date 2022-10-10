@@ -49,7 +49,8 @@ class CompraController extends Controller
 
             return json_encode(true);
         } catch (ExceptionAlias $e) {
-            echo 'Message: ' . $e->getMessage();
+            return json_encode($e->getMessage());
+           // echo 'Message: ' . $e->getMessage();
         }
     }
 

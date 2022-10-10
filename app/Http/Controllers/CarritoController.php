@@ -58,7 +58,7 @@ class CarritoController extends Controller
                 )
             );
         } catch (ExceptionAlias $e) {
-            echo 'Message: ' . $e->getMessage();
+            echo 'Mensaje: El carrito no cuenta con ningun producto';
         }
     }
 

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ZapatoController;
 use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\CompraController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,4 +40,5 @@ Route::post('Agregar/Carrito', [CarritoController::class, 'store']);
 Route::get('Detalle/Carrito', [CarritoController::class, 'show']);
 Route::delete('Eliminar/Carrito/{id_zapato}', [CarritoController::class, 'destroy']);
 
+Route::post('Finalizar/Compra', [CompraController::class, 'store']);
 
