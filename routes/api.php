@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ZapatoController;
+use App\Http\Controllers\CarritoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,9 @@ Route::group(['middleware' => 'web'], function() {
 Route::post('Agregar/Zapato', [ZapatoController::class, 'store']);
 Route::put('Actualizar/Zapato', [ZapatoController::class, 'update']);
 Route::delete('Eliminar/Zapato/{id_zapato}', [ZapatoController::class, 'destroy']);
+
+Route::post('Agregar/Carrito', [CarritoController::class, 'store']);
+Route::get('Detalle/Carrito', [CarritoController::class, 'show']);
+Route::delete('Eliminar/Carrito/{id_zapato}', [CarritoController::class, 'destroy']);
+
+

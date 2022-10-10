@@ -15,4 +15,18 @@ class VentasDetalle extends Model
         'cantidad',
         'total',
     ];
+
+    public static function agregarVentasDetalle($id_venta,$id_zapato,$cantidad,$total)
+    {
+        VentasDetalle::create(
+            [
+                'id_venta' => $id_venta,
+                'id_zapato' => $id_zapato,
+                'cantidad' => $cantidad,
+                'total' => $total,
+            ]
+        );
+
+        return true;
+    }
 }

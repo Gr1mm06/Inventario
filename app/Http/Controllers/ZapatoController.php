@@ -101,7 +101,8 @@ class ZapatoController extends Controller
                     'modelos',
                     'marcas',
                     'zapato',
-                    'categoriasZapato'
+                    'categoriasZapato',
+                    'id'
                 )
             );
         } catch (ExceptionAlias $e) {

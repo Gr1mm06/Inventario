@@ -48,12 +48,31 @@ class Zapatos extends Model
                     'precio' => $request->precio,
                 ]
             );
+
+        return true;
+    }
+
+    public static function actualizarCantidadZapato($id_zapato,$cantidad)
+    {
+        Zapatos::where('id_zapato',$id_zapato)
+            ->update(
+                [
+                    'cantidad' => $request->cantidad,
+                ]
+            );
+
+        return true;
     }
 
     public static function eliminarZapato($id)
     {
         Zapatos::where('id_zapato',$id)->delete();
         return true;
+    }
+
+    public static function getPrecioByIdZapato($id)
+    {
+        return Zapatos::where('id_zapato',$id)->select('precio')->first();
     }
 
     public static function guardarFotoZapato($id,$file_name)

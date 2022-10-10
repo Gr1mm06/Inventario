@@ -13,4 +13,14 @@ class Ventas extends Model
         'total_venta',
         'fecha_venta',
     ];
+
+    public static function agregarVentas($info,$fecha)
+    {
+        return Ventas::insertGetId(
+            [
+                'total_venta' => $info['total_carrito'],
+                'fecha_venta' => $fecha,
+            ]
+        );
+    }
 }

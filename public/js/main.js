@@ -26,7 +26,6 @@ const editar = (folder, view, id) => {
 
 const eliminar = (folder, view, id) => {
     var token = $("meta[name='csrf-token']").attr("content");
-
     $.ajax(
         {
             url: 'api/' + folder + '/' + view + '/' + id,

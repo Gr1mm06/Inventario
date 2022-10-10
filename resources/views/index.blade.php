@@ -53,11 +53,10 @@
     </button>
     <div class="navbar-nav">
         <div class="nav-item text-nowrap" style="margin-right: 18px;">
-            <a type="button" class="btn btn-primary position-relative">
+            <a type="button" class="btn btn-primary position-relative" onclick="detalle('Detalle','Carrito');">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    99+
-                    <span class="visually-hidden">unread messages</span>
+                    0
                 </span>
             </a>
         </div>
@@ -72,13 +71,13 @@
             <div class="position-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" onclick="detalle('Inventario','ListaZapatos');">
+                        <a class="nav-link active pointer" aria-current="page" onclick="detalle('Inventario','ListaZapatos');">
                             <span data-feather="list"></span>
                             Lista de zapatos
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" onclick="detalle('Inventario','CatalogoZapatos');">
+                        <a class="nav-link active pointer" aria-current="page" onclick="detalle('Inventario','CatalogoZapatos');">
                             <span data-feather="grid"></span>
                             Catalogo de zapatos
                         </a>
