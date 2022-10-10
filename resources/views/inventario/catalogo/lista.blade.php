@@ -57,10 +57,22 @@
                 <td>{{ $l['categoria'] }}</td>
                 <td>$ {{ $l['precio'] }}</td>
                 <td>
-                    <a aria-current="page" onclick="editar('Editar','Zapato','{{ $l['id_zapato'] }}');">
+                    <a
+                        aria-current="page"
+                        onclick="editar('Editar','Zapato','{{ $l['id_zapato'] }}');"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Editar"
+                    >
                         <i  class="fa-solid fa-pen-to-square pointer"></i>
                     </a>
-                    <a aria-current="page" onclick="eliminar('salaJuntas','borrar','{{ $l['id_zapato'] }}');">
+                    <a
+                        aria-current="page"
+                        onclick="eliminar('Eliminar','Zapato','{{ $l['id_zapato'] }}');"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Eliminar"
+                    >
                         <i class="fa-solid fa-trash pointer"></i>
                     </a>
                 </td>
@@ -72,7 +84,6 @@
 <script>
     $(document).ready(function() {
         document.title = 'Inventario | Lista de zapatos';
-        // Setup - add a text input to each footer cell
         tabla();
     } );
 </script>

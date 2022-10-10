@@ -1,3 +1,4 @@
+
 const detalle = (folder, view) => {
     $('html,body').animate({
         scrollTop: 0
@@ -24,23 +25,26 @@ const editar = (folder, view, id) => {
 }
 
 const eliminar = (folder, view, id) => {
-    //modalConfimarcion();
-    $.ajax({
-        type: 'delete',
-        url: 'api/' + folder + '/' + view + '/' + id,
-        dataType: 'json',
-        cache       : false,
-        contentType : false,
-        processData : false,
-        success: function(response) {
-            if(response === true){
-                alert('Reservacion liberada');
-                detalle('salaJuntas','catalogo');
-            }else{
-                alert('Error');
+    var token = $("meta[name='csrf-token']").attr("content");
+
+    $.ajax(
+        {
+            url: 'api/' + folder + '/' + view + '/' + id,
+            type: 'DELETE',
+            data: {
+                "id": id,
+                "_token": token,
+            },
+            success: function (response){
+                if(response == true){
+                    alert('Zapato eliminado');
+                    detalle('Inventario','ListaZapatos');
+                }else{
+                    alert('Error');
+                }
             }
         }
-    });
+    );
 }
 
 const tabla = () => {

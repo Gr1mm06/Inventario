@@ -9,6 +9,8 @@ use App\Models\Categorias;
 use App\Models\ZapatosCategorias;
 use Exception as ExceptionAlias;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Storage;
 
 class ZapatoController extends Controller
 {
@@ -39,7 +41,42 @@ class ZapatoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->_validarDatosZapato($request);
+
+        try {
+
+            $formatos = array('png','jpg','jpeg','PNG','JPG','JPEG');
+            $file = false;
+            $file_name = false;
+
+            if ($request->file) {
+                $file = $request->file('file');
+                $ext = $file->getClientOriginalExtension();
+            }
+
+            if ($file) {
+                if (in_array($ext,$formatos)) {
+                    $id_zapato = Zapatos::crearZapatogetID($request);
+                    $file_name = $id_zapato . '.' . $ext;
+                    Zapatos::guardarFotoZapato($id_zapato,$file_name);
+                    Storage::disk('img_zapatos')->put($file_name,  \File::get($file));
+                }else{
+                    return response()->json(['errors' => 'La imagen no tiene el formato correcto']);
+                }
+            } else {
+                $id_zapato = Zapatos::crearZapatogetID($request);
+            }
+
+            $categoria = $request->categoria;
+
+            foreach ($categoria as $car) {
+                ZapatosCategorias::relacionZapatoCategoria($id_zapato,$car);
+            }
+
+            return response()->json(true);
+        } catch (ExceptionAlias $e) {
+            echo 'Message: ' . $e->getMessage();
+        }
     }
 
     /**
@@ -86,6 +123,11 @@ class ZapatoController extends Controller
             $marcas = Marcas::all();
             $zapato = Zapatos::getZapatoById($id);
             $categoriasZapato = ZapatosCategorias::getIdCategoriasByIdZapato($id);
+            $arrayCategorias = array();
+
+            foreach ($categoriasZapato as $cat) {
+                array_push($arrayCategorias, $cat->id_categoria);
+            }
 
             return view(
                 'inventario.editar.eZapato',
@@ -94,7 +136,7 @@ class ZapatoController extends Controller
                     'modelos',
                     'marcas',
                     'zapato',
-                    'categoriasZapato'
+                    'arrayCategorias'
                 )
             );
         } catch (ExceptionAlias $e) {
@@ -106,12 +148,46 @@ class ZapatoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $this->_validarDatosZapato($request);
+
+        try {
+            $id_zapato = $request->id_zapato;
+            $formatos = array('png','jpg','jpeg','PNG','JPG','JPEG');
+            $file = false;
+            $file_name = false;
+            $categoria = $request->categoria;
+
+            if ($request->file) {
+                $file = $request->file('file');
+                $ext = $file->getClientOriginalExtension();
+            }
+
+            if ($file) {
+                if (in_array($ext,$formatos)) {
+                    Zapatos::actualizarZapato($request);
+                    $file_name = $id_zapato . '.' . $ext;
+                    Zapatos::guardarFotoZapato($id_zapato,$file_name);
+                    Storage::disk('img_zapatos')->put($file_name,  \File::get($file));
+                }else{
+                    return response()->json(['errors' => 'La imagen no tiene el formato correcto']);
+                }
+            } else {
+                Zapatos::actualizarZapato($request);
+            }
+
+            ZapatosCategorias::limpiarCategoriasByIdZapato($id_zapato);
+            foreach ($categoria as $car) {
+                ZapatosCategorias::relacionZapatoCategoria($id_zapato,$car);
+            }
+
+            return response()->json(true);
+        } catch (ExceptionAlias $e) {
+            echo 'Message: ' . $e->getMessage();
+        }
     }
 
     /**
@@ -122,6 +198,39 @@ class ZapatoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Zapatos::eliminarZapato($id);
+        return response()->json(true);
+    }
+
+    private function _validarDatosZapato($request)
+    {
+        $validar = Validator::make(
+            $request->all(),
+            [
+                'descripcion' => 'required|min:5',
+                'modelo' => 'required',
+                'marca' => 'required',
+                'cantidad' => 'required|integer',
+                'numero' => 'required|numeric',
+                'categoria' => 'required',
+                'precio' => 'required|numeric',
+            ],
+            [
+                'descripcion.required' => 'Descripcion requerida.',
+                'descripcion.min' => 'El minimo de caracteres es 5.',
+                'modelo.required' => 'Modelo requerido.',
+                'marca.required' => 'Marca requerida.',
+                'cantidad.required' => 'Cantidad requerida.',
+                'cantidad.numeric' => 'Solo valores enteros.',
+                'numero.required' => 'Numero requerido.',
+                'numero.numeric' => 'Solo valores numericos.',
+                'categoria.required' => 'Categoria requerida.',
+                'precio.required' => 'Precio requerido.',
+                'precio.numeric' => 'Solo valores numericos.',
+            ]
+        );
+        if ($validar->fails()) {
+            return response()->json(['errors' => $validar->errors()->all()]);
+        }
     }
 }

@@ -6,20 +6,31 @@
         <button onclick="guardar()" type="button" class="btn btn-success">
             Agregar
         </button>
-        <button onclick="detalle('salaJuntas','catalogo')" type="button" class="btn btn-danger">
+        <button onclick="detalle('Inventario','ListaZapatos')" type="button" class="btn btn-danger">
             Cancelar
         </button>
     </div>
 </div>
 <div class="table-responsive">
     <h4>Informacion del Zapato</h4>
+    @if($errors->any())
+        @foreach($errors->all() as $error)
+            <span class="text-danger">{{ $error }}</span>
+        @endforeach
+    @endif
     <form class="form-horizontal" id="frmZapato" name="frmZapato" autocomplete="off">
         {!! csrf_field() !!}
         <div class="form-group">
+            <label for="icono" class="col-md-2 control-label">Descripcion </label>
+            <div class="col-md-10">
+                <input type="text" required class="form-control" name="descripcion" id="descripcion">
+            </div>
+        </div>
+        <div class="form-group">
             <label for="icono" class="col-md-2 control-label">Modelo</label>
             <div class="col-md-10">
-                <select class="form-select"  aria-label="Default select example">
-                    <option selected disabled>Modelo</option>
+                <select class="form-select"  aria-label="Default select example" name="modelo" id="modelo">
+                    <option selected disabled value="">Modelo</option>
                     @foreach($modelos as $mo)
                         <option value="{{ $mo->id_modelo }}">{{ $mo->codigo_modelo }} - {{ $mo->descripcion }}</option>
                     @endforeach
@@ -29,10 +40,10 @@
         <div class="form-group">
             <label for="icono" class="col-md-2 control-label">Marca</label>
             <div class="col-md-10">
-                <select class="form-select"  aria-label="Default select example">
-                    <option selected disabled>Marca</option>
-                    @foreach($modelos as $mo)
-                        <option value="{{ $mo->id_modelo }}">{{ $mo->codigo_modelo }} - {{ $mo->descripcion }}</option>
+                <select class="form-select"  aria-label="Default select example" id="marca" name="marca">
+                    <option selected disabled value="">Marca</option>
+                    @foreach($marcas as $ma)
+                        <option value="{{ $ma->id_marca }}">{{ $ma->descripcion }}</option>
                     @endforeach
                 </select>
             </div>
@@ -60,10 +71,10 @@
         <div class="form-group">
             <label for="icono" class="col-md-2 control-label">Categoria</label>
             <div class="col-md-10">
-                <select class="form-select"  aria-label="Default select example">
-                    <option selected disabled>Marca</option>
-                    @foreach($modelos as $mo)
-                        <option value="{{ $mo->id_modelo }}">{{ $mo->codigo_modelo }} - {{ $mo->descripcion }}</option>
+                <select class="form-select" multiple  aria-label="multiple select example" id="categoria" name="categoria[]">
+                    <option selected disabled value="">Categoria</option>
+                    @foreach($categorias as $cat)
+                        <option value="{{ $cat->id_categoria }}">{{ $cat->descripcion }}</option>
                     @endforeach
                 </select>
             </div>
@@ -75,6 +86,9 @@
             </div>
         </div>
     </form>
+    @if($errors->any())
+        {!! implode('', $errors->all('<div>:message</div>')) !!}
+    @endif
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -90,15 +104,16 @@
         $.ajax({
             data: new FormData($("#frmZapato")[0]),
             type: 'post',
-            url: 'api/zapatos/agregar',
+            url: 'api/Agregar/Zapato',
             dataType: 'json',
             cache       : false,
             contentType : false,
             processData : false,
             success: function(response) {
+                console.log(response);
                 if(response === true){
                     alert('Zapato creado correctamente');
-                    detalle('salaJuntas','catalogo');
+                    detalle('Inventario','ListaZapatos');
                 }else{
                     alert('Error')
                 }

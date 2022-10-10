@@ -26,7 +26,7 @@ class CreateZapatosTable extends Migration
                 ->references('id_marca')
                 ->on('marcas')
                 ->onDelete('cascade');
-            $table->string('foto',50);
+            $table->string('foto',50)->nullable();
             $table->integer('cantidad');
             $table->integer('numero');
             $table->decimal('precio', $precision = 20, $scale = 2);

@@ -21,6 +21,52 @@ class Zapatos extends Model
         'precio',
     ];
 
+    public static function crearZapatogetID($request)
+    {
+       return Zapatos::insertGetId(
+           [
+               'descripcion' => trim($request->descripcion),
+               'id_modelo' => $request->modelo,
+               'id_marca' => $request->marca,
+               'cantidad' => $request->cantidad,
+               'numero' => $request->numero,
+               'precio' => $request->precio,
+           ]
+       );
+    }
+
+    public static function actualizarZapato($request)
+    {
+        Zapatos::where('id_zapato',$request->id_zapato)
+            ->update(
+                [
+                    'descripcion' => trim($request->descripcion),
+                    'id_modelo' => $request->modelo,
+                    'id_marca' => $request->marca,
+                    'cantidad' => $request->cantidad,
+                    'numero' => $request->numero,
+                    'precio' => $request->precio,
+                ]
+            );
+    }
+
+    public static function eliminarZapato($id)
+    {
+        Zapatos::where('id_zapato',$id)->delete();
+        return true;
+    }
+
+    public static function guardarFotoZapato($id,$file_name)
+    {
+        Zapatos::where('id_zapato',$id)
+            ->update(
+                [
+                    'foto' => $file_name
+                ]
+            );
+        return true;
+    }
+
     public static function listaZapatos(){
        return Zapatos::leftJoin('modelos as mo',function($mo){
             $mo->on('zapatos.id_modelo','=','mo.id_modelo');

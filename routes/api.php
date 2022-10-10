@@ -15,10 +15,14 @@ use App\Http\Controllers\ZapatoController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::group(['middleware' => 'web'], function() {
+    Route::get('Inventario/ListaZapatos', [InventarioController::class, 'index']);
+    Route::get('Inventario/CatalogoZapatos', [InventarioController::class, 'show']);
 
-Route::get('Inventario/ListaZapatos', [InventarioController::class, 'index']);
-Route::get('Inventario/CatalogoZapatos', [InventarioController::class, 'show']);
-
-Route::get('Detalle/Zapato/{id_zapato}', [ZapatoController::class, 'show']);
-Route::get('Nuevo/Zapato', [ZapatoController::class, 'create']);
-Route::get('Editar/Zapato/{id_zapato}', [ZapatoController::class, 'edit']);
+    Route::get('Detalle/Zapato/{id_zapato}', [ZapatoController::class, 'show']);
+    Route::get('Nuevo/Zapato', [ZapatoController::class, 'create']);
+    Route::get('Editar/Zapato/{id_zapato}', [ZapatoController::class, 'edit']);
+});
+Route::post('Agregar/Zapato', [ZapatoController::class, 'store']);
+Route::put('Actualizar/Zapato', [ZapatoController::class, 'update']);
+Route::delete('Eliminar/Zapato/{id_zapato}', [ZapatoController::class, 'destroy']);

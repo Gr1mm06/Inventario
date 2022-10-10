@@ -42,6 +42,11 @@ return [
             'visibility' => 'public',
         ],
 
+        'img_zapatos' =>[
+            'driver' => 'local',
+            'root' => public_path().'/imagen_calzado',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
